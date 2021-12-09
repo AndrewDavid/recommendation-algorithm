@@ -46,11 +46,9 @@ Sometimes, it may be necessary to rename the value of the constants (According t
 
 [![example](https://github.com/tigoCaval/images/blob/main/web/table_r1.jpg)](https://github.com/tigoCaval/recommendation-algorithm)
 
-- Configure: standard key (Directory: ```./src/configuration/StandardKey.php```)
+- Configure database keys:
 ```php
-    const SCORE = 'score'; //score  
-    const PRODUCT_ID = 'product_id'; //Foreign key
-    const USER_ID = 'user_id'; //Foreign key 
+    $client = new Recommend('score', 'object_id', 'user_id'); //Use strings to replace the default column names used
 ```
 ### Example
 A simple didactic demonstration of the algorithm
@@ -105,4 +103,3 @@ If you are interested in supporting this project, you can help in many ways. Lea
 MIT license. See the archive [License](https://github.com/tigoCaval/recommendation-algorithm/blob/main/LICENSE)
 
 ---
-

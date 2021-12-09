@@ -53,10 +53,10 @@ class SlopeOneCollaborative extends Base
     {
         $this->ratedProduct($table, $user);
         foreach($this->product as $item){
-            $this->myProduct[$item[self::USER_ID]][$item[self::PRODUCT_ID]] = $item[self::SCORE];
+            $this->myProduct[$item[$this->user_id]][$item[$this->object_id]] = $item[$this->score];
         }
         foreach($this->other as $item){ 
-            $this->factor[$item[self::USER_ID]][$item[self::PRODUCT_ID]] = $item[self::SCORE]; 
+            $this->factor[$item[$this->user_id]][$item[$this->object_id]] = $item[$this->score]; 
         }
     }
     

@@ -43,10 +43,10 @@ class EuclideanCollaborative extends Base
         $rated = []; //get user rating
         foreach($this->product as $myProduct){
             foreach($this->other as $item){ 
-               if($myProduct[self::PRODUCT_ID] == $item[self::PRODUCT_ID]){
-                   if($myProduct[self::SCORE] >= $score && $item[self::SCORE] >= $score){
-                      if(!in_array($item[self::USER_ID],$rated)) // check if user already exists
-                          $rated[] = $item[self::USER_ID]; //add user
+               if($myProduct[$this->object_id] == $item[$this->object_id]){
+                   if($myProduct[$this->score] >= $score && $item[$this->score] >= $score){
+                      if(!in_array($item[$this->user_id],$rated)) // check if user already exists
+                          $rated[] = $item[$this->user_id]; //add user
                    }     
                }
             }
@@ -69,10 +69,10 @@ class EuclideanCollaborative extends Base
         foreach ($this->product as $myProduct){
             for($i = 0; $i < count($rated) ; $i++){
                 foreach($this->other as $itemOther){
-                    if($itemOther[self::USER_ID] == $rated[$i] &&
-                    $myProduct[self::PRODUCT_ID] == $itemOther[self::PRODUCT_ID] 
-                    && $myProduct[self::SCORE] >= $score && $itemOther[self::SCORE] >= $score){  
-                        $data[$itemOther[self::USER_ID]][$myProduct[self::PRODUCT_ID]] = abs($itemOther[self::SCORE] - $myProduct[self::SCORE]);       
+                    if($itemOther[$this->user_id] == $rated[$i] &&
+                    $myProduct[$this->object_id] == $itemOther[$this->object_id] 
+                    && $myProduct[$this->score] >= $score && $itemOther[$this->score] >= $score){  
+                        $data[$itemOther[$this->user_id]][$myProduct[$this->object_id]] = abs($itemOther[$this->score] - $myProduct[$this->score]);       
                     }  
                 }
             }
@@ -121,13 +121,13 @@ class EuclideanCollaborative extends Base
         $element = [];
         foreach($metric as $itemMetric){
             foreach($this->other as $itemOther){
-                if($itemOther[self::USER_ID] == key($metric) && $itemOther[self::SCORE] >= $score){
-                    if(!isset($element[$itemOther[self::PRODUCT_ID]])){
-                       $element[$itemOther[self::PRODUCT_ID]] = 0;
-                       $similarity[$itemOther[self::PRODUCT_ID]] = 0;
+                if($itemOther[$this->user_id] == key($metric) && $itemOther[$this->score] >= $score){
+                    if(!isset($element[$itemOther[$this->object_id]])){
+                       $element[$itemOther[$this->object_id]] = 0;
+                       $similarity[$itemOther[$this->object_id]] = 0;
                     }     
-                   $element[$itemOther[self::PRODUCT_ID]] += ($itemMetric * $itemOther[self::SCORE]); 
-                   $similarity[$itemOther[self::PRODUCT_ID]] += $itemMetric; 
+                   $element[$itemOther[$this->object_id]] += ($itemMetric * $itemOther[$this->score]); 
+                   $similarity[$itemOther[$this->object_id]] += $itemMetric; 
                 }
             }
            next($metric);  

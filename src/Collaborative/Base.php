@@ -1,7 +1,6 @@
 <?php
 namespace Tigo\Recommendation\Collaborative;
 
-use Tigo\Recommendation\Configuration\StandardKey;
 use Tigo\Recommendation\Interfaces\CollaborativeInterface;
 
 /**
@@ -9,10 +8,20 @@ use Tigo\Recommendation\Interfaces\CollaborativeInterface;
  * 
  * @author Tiago A C Pereira <tiagocavalcante57@gmail.com>
  */
-abstract class Base extends StandardKey implements CollaborativeInterface
+abstract class Base implements CollaborativeInterface
 {
-
-    /**
+	protected $score;
+	protected $object_id;
+	protected $user_id;
+	
+	public function __construct($score = 'score', $object_id = 'object_id', $user_id = 'user_id')
+	{
+		$this->score = $score;
+		$this->object_id = $object_id;
+		$this->user_id = $user_id;
+	}
+	
+    /** 
      * User rated product.
      * @var array
      */
@@ -34,7 +43,7 @@ abstract class Base extends StandardKey implements CollaborativeInterface
     protected function ratedProduct($table, $user) 
     { 
         foreach($table as $item){
-            $item[self::USER_ID] == $user ?  $this->product[] = $item : $this->other[] = $item;   
+            $item[$this->user_id] == $user ?  $this->product[] = $item : $this->other[] = $item;   
         }  
     }
 
@@ -52,7 +61,7 @@ abstract class Base extends StandardKey implements CollaborativeInterface
         $rank = $myRank;  
         for($i = 0; $i < count($myRank); $i++){    
             foreach($this->product as $item){           
-                if($item[self::PRODUCT_ID] == key($myRank))
+                if($item[$this->object_id] == key($myRank))
                     unset($rank[key($myRank)]); // remove product
             } 
             next($myRank);

@@ -14,12 +14,19 @@ use Tigo\Recommendation\Factories\CollaborativeFactory;
  */
 class Recommend
 {
-
    protected $method;
-
-   public function __construct()
+   
+   protected $score;
+   protected $object_id;
+   protected $user_id;
+   
+   public function __construct($score = 'score', $object_id = 'object_id', $user_id = 'user_id')
    {
-       $this->method = new CollaborativeFactory();
+	   $this->score = $score;
+	   $this->object_id = $object_id;
+	   $this->user_id = $user_id;
+	   
+	   $this->method = new CollaborativeFactory();
    }
 
    /**
@@ -32,7 +39,7 @@ class Recommend
     */
    public function ranking($table, $user, $score = 0)
    { 
-      return $this->method->doFactory(new RankingCollaborative(), $table, $user, $score);   
+      return $this->method->doFactory(new RankingCollaborative($this->score, $this->object_id, $this->user_id), $table, $user, $score);   
    }
 
    /**
@@ -45,7 +52,7 @@ class Recommend
     */
    public function euclidean($table, $user, $score = 0)
    { 
-      return $this->method->doFactory(new EuclideanCollaborative(), $table, $user, $score);   
+      return $this->method->doFactory(new EuclideanCollaborative($this->score, $this->object_id, $this->user_id), $table, $user, $score);   
    }
 
    /**
@@ -58,7 +65,7 @@ class Recommend
     */
    public function slopeOne($table, $user, $score = 0)
    {
-      return $this->method->doFactory(new SlopeOneCollaborative(), $table, $user, $score);
+      return $this->method->doFactory(new SlopeOneCollaborative($this->score, $this->object_id, $this->user_id), $table, $user, $score);
    }
 
 }

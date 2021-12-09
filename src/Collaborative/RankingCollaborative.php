@@ -43,11 +43,11 @@ class RankingCollaborative extends Base
         $rank = [];
         foreach($this->product as $myProduct){
             foreach($this->other as $item){ 
-               if($myProduct[self::PRODUCT_ID] == $item[self::PRODUCT_ID]){
-                   if($myProduct[self::SCORE] == $item[self::SCORE]){
-                      if(!isset($similar[$item[self::USER_ID]])) 
-                          $similar[$item[self::USER_ID]] = 0; //
-                      $similar[$item[self::USER_ID]] += 1; //assigning weight     
+               if($myProduct[$this->object_id] == $item[$this->object_id]){
+                   if($myProduct[$this->score] == $item[$this->score]){
+                      if(!isset($similar[$item[$this->user_id]])) 
+                          $similar[$item[$this->user_id]] = 0; //
+                      $similar[$item[$this->user_id]] += 1; //assigning weight     
                    }     
                }
             }
@@ -70,10 +70,10 @@ class RankingCollaborative extends Base
         $rank = [];
         foreach($this->other as $item){
             foreach($similar as $value){
-               if($item[self::USER_ID] == key($similar) && $item[self::SCORE] > $score){
-                   if(!isset($rank[$item[self::PRODUCT_ID]]) )
-                       $rank[$item[self::PRODUCT_ID]] = 0; //assign value for calculation
-                   $rank[$item[self::PRODUCT_ID]] += $value; //add   
+               if($item[$this->user_id] == key($similar) && $item[$this->score] > $score){
+                   if(!isset($rank[$item[$this->object_id]]) )
+                       $rank[$item[$this->object_id]] = 0; //assign value for calculation
+                   $rank[$item[$this->object_id]] += $value; //add   
                }
                next($similar);
             }
